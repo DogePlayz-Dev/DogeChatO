@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>DogeChat</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+        <script src="/bruh.js"></script>
+        <script src="/s.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href = "/style.css">
+    </head>
+    <body>
+        <p id="hi">hi</p>
+    </body>
+    <script>
+        function isHTML(str) {
+            var a = document.createElement('div');
+            a.innerHTML = str;
+
+            for (var c = a.childNodes, i = c.length; i--; ) {
+                if (c[i].nodeType == 1) return true; 
+            }
+
+            return false;
+        }
+        
+    </script>
+</html>
