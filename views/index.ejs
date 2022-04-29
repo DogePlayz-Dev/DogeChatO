@@ -7,11 +7,34 @@
         <script src="/s.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href = "/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
-    <body>
-        <p id="hi">hi</p>
+    <body align="Center">
+        <h1 class="ns"><a class="logo">D</a>ogeChat V2</h1>
+        <div class="main">
+            <p id="c">Connection Status: <a id="ctext">Connecting</a> </p>
+            <div class="chatbox">
+
+            </div>
+            <input keypress="" type="text" id="inp">
+        </div>
     </body>
     <script>
+        const tinput = document.getElementById('inp')
+        const cb = document.getElementsByClassName('chatbox')[0]
+        socket.on('msg', (message) => {
+            const ele = document.createElement('p')
+            ele.innerHTML = `<a class="ns">${message.n}: </a> ${message.c}`
+            cb.appendChild(ele)
+        })
+        socket.on('connect', () => {
+            document.getElementById('ctext').textContent = 'Connected'
+            document.getElementById('ctext').style.color = 'rgb(0,255,0)'
+        })
+        socket.on('disconnect', () => {
+            document.getElementById('ctext').textContent = 'Disconnected'
+            document.getElementById('ctext').style.color = 'rgb(255,0,0)'
+        })
         function isHTML(str) {
             var a = document.createElement('div');
             a.innerHTML = str;
@@ -22,6 +45,19 @@
 
             return false;
         }
+        tinput.addEventListener("keypress", (e) => {
+            if(e.keyCode == 13){
+                if(tinput.value.slice(0,6) == '/clear'){
+                    $('.chatbox').empty()
+                }else if(tinput.value.slice(0,5) == '/name' && !isHTML(tinput.value.slice(6))){
+                    socket.emit('rename', tinput.value.slice(6).slice(0,20))
+                }
+                else{
+                    socket.emit('msg', tinput.value.trim(0,250))
+                }
+                tinput.value = ""
+            }
+        })
         
     </script>
 </html>
