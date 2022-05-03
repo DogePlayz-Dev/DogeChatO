@@ -10,14 +10,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body align="Center">
-        <h1 class="ns"><a class="logo">D</a>ogeChat V2</h1>
-        <div class="main">
-            <p id="c">Connection Status: <a id="ctext">Connecting</a> </p>
-            <div class="chatbox">
+        <p id="c">Connection Status: <a id="ctext">Connecting</a> </p>
+        <div class="chatbox">
 
-            </div>
-            <input keypress="" type="text" id="inp">
         </div>
+        <input keypress="" type="text" id="inp">
     </body>
     <script>
         const tinput = document.getElementById('inp')
@@ -27,6 +24,7 @@
             ele.innerHTML = `<a class="ns">${message.n}: </a> ${message.c}`
             cb.appendChild(ele)
         })
+        socket.on('ban')
         socket.on('connect', () => {
             document.getElementById('ctext').textContent = 'Connected'
             document.getElementById('ctext').style.color = 'rgb(0,255,0)'
@@ -47,15 +45,19 @@
         }
         tinput.addEventListener("keypress", (e) => {
             if(e.keyCode == 13){
+                let success = false
                 if(tinput.value.slice(0,6) == '/clear'){
                     $('.chatbox').empty()
+                    success = true
                 }else if(tinput.value.slice(0,5) == '/name' && !isHTML(tinput.value.slice(6))){
                     socket.emit('rename', tinput.value.slice(6).slice(0,20))
+                    success = true
                 }
-                else{
+                else if(tinput.value.replace(/\s/g,'').length > 0){
                     socket.emit('msg', tinput.value.trim(0,250))
+                    success = true
                 }
-                tinput.value = ""
+                if(success) tinput.value = "";
             }
         })
         

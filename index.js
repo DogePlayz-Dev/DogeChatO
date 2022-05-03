@@ -7,7 +7,7 @@ const app = express()
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
-let blExternalDevices = false // Blacklists all connections that aren't using ChromeOS
+let blExternalDevices = true // Blacklists all connections that aren't using ChromeOS
 app.use((req,res,next) => {
     if(blExternalDevices && !(/\bCrOS\b/.test(req.get('User-Agent')))) return res.send('DogeChat has been abandoned.');
     next()
