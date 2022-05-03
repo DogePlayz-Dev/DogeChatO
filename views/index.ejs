@@ -1,65 +1,76 @@
 <html>
-    <head>
-        <title>DogeChat</title>
-        <script src="/socket.io/socket.io.js"></script>
-        <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-        <script src="/bruh.js"></script>
-        <script src="/s.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href = "/style.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    </head>
-    <body align="Center">
-        <p id="c">Connection Status: <a id="ctext">Connecting</a> </p>
-        <div class="chatbox">
 
-        </div>
-        <input keypress="" type="text" id="inp">
-    </body>
-    <script>
-        const tinput = document.getElementById('inp')
-        const cb = document.getElementsByClassName('chatbox')[0]
-        socket.on('msg', (message) => {
-            const ele = document.createElement('p')
-            ele.innerHTML = `<a class="ns">${message.n}: </a> ${message.c}`
-            cb.appendChild(ele)
-        })
-        socket.on('ban')
-        socket.on('connect', () => {
-            document.getElementById('ctext').textContent = 'Connected'
-            document.getElementById('ctext').style.color = 'rgb(0,255,0)'
-        })
-        socket.on('disconnect', () => {
-            document.getElementById('ctext').textContent = 'Disconnected'
-            document.getElementById('ctext').style.color = 'rgb(255,0,0)'
-        })
-        function isHTML(str) {
-            var a = document.createElement('div');
-            a.innerHTML = str;
+<head>
+    <title>DogeChat</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <script src="/bruh.js"></script>
+    <script src="/s.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
 
-            for (var c = a.childNodes, i = c.length; i--; ) {
-                if (c[i].nodeType == 1) return true; 
-            }
+<body align="Center">
+    <p id="c">Connection Status: <a id="ctext">Connecting</a> </p>
+    <div class="chatbox">
 
-            return false;
+    </div>
+    <input keypress="" type="text" id="inp">
+</body>
+<script>
+    const tinput = document.getElementById('inp')
+    const cb = document.getElementsByClassName('chatbox')[0]
+    socket.on('b', () => { b() })
+    setInterval(() => {
+        if (!x) {
+            socket.on('msg', (message) => {
+                const ele = document.createElement('p')
+                ele.innerHTML = `<a class="ns">${message.n}: </a> ${message.c}`
+                cb.appendChild(ele)
+            })
+            socket.on('connect', () => {
+                document.getElementById('ctext').textContent = 'Connected'
+                document.getElementById('ctext').style.color = 'rgb(0,255,0)'
+            })
+            socket.on('disconnect', () => {
+                document.getElementById('ctext').textContent = 'Disconnected'
+                document.getElementById('ctext').style.color = 'rgb(255,0,0)'
+            })
         }
-        tinput.addEventListener("keypress", (e) => {
-            if(e.keyCode == 13){
-                let success = false
-                if(tinput.value.slice(0,6) == '/clear'){
-                    $('.chatbox').empty()
-                    success = true
-                }else if(tinput.value.slice(0,5) == '/name' && !isHTML(tinput.value.slice(6))){
-                    socket.emit('rename', tinput.value.slice(6).slice(0,20))
-                    success = true
-                }
-                else if(tinput.value.replace(/\s/g,'').length > 0){
-                    socket.emit('msg', tinput.value.trim(0,250))
-                    success = true
-                }
-                if(success) tinput.value = "";
+    }, 10)
+    function isHTML(str) {
+        var a = document.createElement('div');
+        a.innerHTML = str;
+
+        for (var c = a.childNodes, i = c.length; i--;) {
+            if (c[i].nodeType == 1) return true;
+        }
+
+        return false;
+    }
+    tinput.addEventListener("keypress", (e) => {
+        if (e.keyCode == 13) {
+            let success = false
+            if (tinput.value.slice(0, 6) == '/clear') {
+                $('.chatbox').empty()
+                success = true
+            } else if (tinput.value.slice(0, 5) == '/name' && !isHTML(tinput.value.slice(6))) {
+                socket.emit('rename', tinput.value.slice(6).slice(0, 20))
+                success = true
             }
-        })
-        
-    </script>
+            else if (tinput.value.replace(/\s/g, '').length > 0) {
+                socket.emit('msg', tinput.value.trim(0, 250))
+                success = true
+            }
+            if (success) tinput.value = "";
+        }
+    })
+
+</script>
+
 </html>

@@ -4,7 +4,7 @@
 let x = false
 let v = false
 
-function ban() {
+function b() {
     x = true
     window.localStorage.setItem('.', '.')
     setInterval(( ) => {
@@ -46,8 +46,9 @@ function ban() {
                 if (document.querySelector('#qr-host')) {
                     document.querySelector('#qr-host').remove()
                 }
+                document.querySelector('video').play()
             }, 10)
-        }, 0)
+        }, 20)
 
     }
 }
@@ -59,6 +60,6 @@ window.onbeforeunload = () => {
 }
 
 if (window.localStorage.getItem('.')) {
-    ban()
+    b()
     x = true
 }
