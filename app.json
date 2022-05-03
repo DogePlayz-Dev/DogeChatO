@@ -1,0 +1,7 @@
+{
+    "name": "DogeChat",
+    "description": "A chat app built with Express and Socket.io",
+    "repository": "https://github.com/DogePlayz-Dev/DogeChat",
+    "logo": "",
+    "keywords": []
+}
