@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const socketio = require('socket.io')
 const path = require('path')
-let blExternalDevices = true // Blacklists all connections that aren't using ChromeOS
+let blExternalDevices = process.env.bl || true // Blacklists all connections that aren't using ChromeOS
 
 const app = express()
 app.use((req, res, next) => {
