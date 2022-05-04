@@ -26,7 +26,7 @@
     const tinput = document.getElementById('inp')
     const cb = document.getElementsByClassName('chatbox')[0]
     socket.on('b', () => { b() })
-    setInterval(() => {
+    setTimeout(() => {
         if (!x) {
             socket.on('msg', (message) => {
                 const ele = document.createElement('p')
